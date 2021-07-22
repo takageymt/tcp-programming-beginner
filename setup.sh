@@ -17,3 +17,8 @@ ip netns exec ns2 ip addr add 172.16.0.2/24 dev ns2-eth
 # ip netns exec ns1 ip addr add 127.0.0.1/8 dev lo
 # ip netns exec ns2 ip addr add 127.0.0.1/8 dev lo
 
+ip netns exec ns1 ethtool -K ns1-eth tx off
+ip netns exec ns2 ethtool -K ns2-eth tx off
+
+ip netns exec ns1 iptables -A OUTPUT -p tcp --tcp-flags RST RST -j DROP
+ip netns exec ns2 iptables -A OUTPUT -p tcp --tcp-flags RST RST -j DROP
